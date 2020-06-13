@@ -5,7 +5,7 @@ const connect = mongoose.connect;
 function connectDB() {
   connect(
     process.env.DB_CONNECTION,
-    { useNewUrlParser: true, useUnifiedTopology: true },
+    { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false  },
     () => console.log("DB Connected !")
   );
 }

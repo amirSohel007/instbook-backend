@@ -1,5 +1,6 @@
-const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const bcrypt = require('bcrypt');
+const User = require('../models/User');
+const Post = require('../models/Post')
 const jwt = require("jsonwebtoken");
 
 //Sign up route
@@ -55,9 +56,65 @@ exports.singIn = async (req, res) => {
 
 };
 
-
 //Get all users
 exports.getUsers = async (req, res) => {
     const users = await User.find().limit(5)
     res.json(users)
+}
+
+//get anyone single user
+exports.getAnySingleUsers = async (req,res) => {
+  const userInfo = await User.findOne({_id:req.params.id}).select('-password')
+  const userPosts = await Post.find({postedBy:req.params.id}).populate('postedBy')
+  if (userInfo && userPosts){
+      res.json({userInfo,userPosts})
+  }
+}
+
+//follow user 
+exports.followUser = async = (req, res) => {
+    User.findByIdAndUpdate(req.body.followId,{
+        $push:{followers:req.user._id}
+    },{
+        new:true
+    },(err,result)=>{
+        if(err){
+            return res.status(422).json({error:err})
+        }
+      User.findByIdAndUpdate(req.user._id,{
+          $push:{following:req.body.followId}
+          
+      },{new:true}).select("-password").then(result=>{
+          res.json(result)
+      }).catch(err=>{
+          return res.status(422).json({error:err})
+      })
+
+    }
+    )
+}
+
+
+
+//unfollow user 
+exports.unFollowUser = async = (req, res) => {
+    User.findByIdAndUpdate(req.body.unfollowId,{
+        $pull:{followers:req.user._id}
+    },{
+        new:true
+    },(err,result)=>{
+        if(err){
+            return res.status(422).json({error:err})
+        }
+      User.findByIdAndUpdate(req.user._id,{
+          $pull:{following:req.body.unfollowId}
+
+      },{new:true}).select("-password").then(result=>{
+          res.json(result)
+      }).catch(err=>{
+          return res.status(422).json({error:err})
+      })
+
+    }
+    )
 }
