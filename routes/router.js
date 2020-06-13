@@ -23,7 +23,7 @@ router.get('/allusers', isAuthenticate, getUsers)
 router.get('/user/:id', isAuthenticate, getAnySingleUsers)
 router.put('/follow', isAuthenticate, followUser)
 router.put('/unfollow', isAuthenticate, unFollowUser)
-router.put('/test', (req, res) => {
+router.get('/test', (req, res) => {
        res.json({message:"API is running & up "})
 })
 
