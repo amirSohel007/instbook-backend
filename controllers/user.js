@@ -3,6 +3,7 @@ const User = require('../models/User');
 const Post = require('../models/Post')
 const jwt = require("jsonwebtoken");
 
+
 //Sign up route
 exports.signUp = async (req, res) => {
   const { name, email, password } = req.body;
@@ -72,7 +73,7 @@ exports.getAnySingleUsers = async (req,res) => {
 }
 
 //follow user 
-exports.followUser = async = (req, res) => {
+exports.followUser = async (req, res) => {
     User.findByIdAndUpdate(req.body.followId,{
         $push:{followers:req.user._id}
     },{
@@ -93,8 +94,6 @@ exports.followUser = async = (req, res) => {
     }
     )
 }
-
-
 
 //unfollow user 
 exports.unFollowUser = async = (req, res) => {
@@ -117,4 +116,11 @@ exports.unFollowUser = async = (req, res) => {
 
     }
     )
+}
+
+//search post 
+exports.searchUser = async (req, res) => {
+  const pattern = new RegExp('^'+req.body.key)
+    const searchUser = await User.find({email:{$regex:pattern}})
+    if(searchUser) res.json(searchUser)
 }
