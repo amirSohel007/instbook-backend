@@ -59,7 +59,7 @@ exports.singIn = async (req, res) => {
 
 //Get all users
 exports.getUsers = async (req, res) => {
-    const users = await User.find().limit(5)
+    const users = await User.find()
     res.json(users)
 }
 
@@ -121,6 +121,6 @@ exports.unFollowUser = async = (req, res) => {
 //search post 
 exports.searchUser = async (req, res) => {
   const pattern = new RegExp('^'+req.body.key)
-    const searchUser = await User.find({email:{$regex:pattern}})
+    const searchUser = await User.find({name:{$regex:pattern}})
     if(searchUser) res.json(searchUser)
 }
