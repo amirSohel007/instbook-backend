@@ -124,3 +124,12 @@ exports.searchUser = async (req, res) => {
     const searchUser = await User.find({name:{$regex:pattern}})
     if(searchUser) res.json(searchUser)
 }
+
+//update profile image
+exports.updateProfileImage = async(req, res) => {
+  let imageUrl = req.body.avtarUrl
+  const findUser = await User.findByIdAndUpdate(req.user._id, {
+    $set:{profileImg:imageUrl}
+  }, {new:true})
+  res.json(findUser)
+}

@@ -6,6 +6,7 @@ const {signUp,
        getAnySingleUsers, 
        followUser, 
        searchUser,
+       updateProfileImage,
        unFollowUser} = require('../controllers/user')
 const {createPost,
        getAllPosts,
@@ -24,6 +25,7 @@ router.get('/allusers', isAuthenticate, getUsers)
 router.get('/user/:id', isAuthenticate, getAnySingleUsers)
 router.put('/follow', isAuthenticate, followUser)
 router.put('/unfollow', isAuthenticate, unFollowUser)
+router.put('/update-image', isAuthenticate, updateProfileImage)
 
 router.get('/test', (req, res) => {
        res.json({message:"API is running & up "})
