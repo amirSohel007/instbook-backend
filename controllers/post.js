@@ -16,7 +16,7 @@ exports.createPost = async (req, res) => {
 //get all posts
 exports.getAllPosts = async (req, res) => {
   const posts = await Post.find()
-  .populate('postedBy', '_id name')
+  .populate('postedBy', '_id name profileImg')
   .populate('comments.postedBy', '_id name')
   .sort({$natural:-1});
   res.json(posts);

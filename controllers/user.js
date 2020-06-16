@@ -46,8 +46,8 @@ exports.singIn = async (req, res) => {
     bcrypt.compare(password, isUserExist.password, (err, result) => {
       if (result){
            const token = jwt.sign({ _id: isUserExist._id },process.env.PRIVATE_KEY);
-           const {name, _id, email} = isUserExist
-           res.json({ status: true, token, name, _id, email });
+           const {name, _id, email, profileImg} = isUserExist
+           res.json({ status: true, token, name, _id, email, profileImg });
           }
           else{
             return res.json({ error: "Password not matched" });
