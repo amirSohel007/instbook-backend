@@ -127,7 +127,9 @@ exports.searchUser = async (req, res) => {
 
 //update profile image
 exports.updateProfileImage = async(req, res) => {
-  let imageUrl = req.body.avtarUrl
+  console.log(req.body)
+  let imageUrl = req.body.profileImg
+  console.log(imageUrl)
   const findUser = await User.findByIdAndUpdate(req.user._id, {
     $set:{profileImg:imageUrl}
   }, {new:true})
