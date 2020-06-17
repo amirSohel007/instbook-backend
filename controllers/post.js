@@ -17,7 +17,7 @@ exports.createPost = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
   const posts = await Post.find()
   .populate('postedBy', '_id name profileImg')
-  .populate('comments.postedBy', '_id name')
+  .populate('comments.postedBy', '_id name profileImg')
   .sort({$natural:-1});
   res.json(posts);
 };
@@ -33,8 +33,8 @@ exports.likePost = async(req, res) => {
  const like = await Post.findByIdAndUpdate(req.body.postId, {
     $push:{likes:req.user._id}
   }, {new:true})
-    .populate('postedBy', '_id name')
-    .populate('comments.postedBy', '_id name')
+    .populate('postedBy', '_id name profileImg')
+    .populate('comments.postedBy', '_id name profileImg')
      .catch(error => {
     console.log(error)
   })
