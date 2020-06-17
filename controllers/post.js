@@ -47,8 +47,8 @@ exports.unlikePost = async(req, res) => {
   const unlike = await Post.findByIdAndUpdate(req.body.postId, {
     $pull:{likes:req.user._id}
   }, {new:true})
-   .populate('postedBy', '_id name')
-   .populate('comments.postedBy', '_id name')
+   .populate('postedBy', '_id name profileImg')
+   .populate('comments.postedBy', '_id name profileImg')
   res.json(unlike)
 }
 
